@@ -1,3 +1,4 @@
+import { Consumo } from './../entities/conusmo.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Client } from 'src/entities/client.entity';
 
@@ -8,6 +9,6 @@ export const Connection = TypeOrmModule.forRoot({
     username: 'root',
     password: '',
     database: 'proyecto_BD',
-    entities: [Client],
-    synchronize: true
+    entities: [Client, Consumo],
+    synchronize: false,
 })
