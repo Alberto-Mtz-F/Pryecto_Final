@@ -10,14 +10,12 @@ export class PagoService {
         @InjectRepository(Pago) private pagoEntity : Repository<Pago>
     ){}
      
-    async create(pago: IPago){
-        const total = 1 //Se calcula por a partir de la coneccion entre las tablas. 
-
+    async create(id: number, total : number, pagado: boolean){
         
         return await this.pagoEntity.save({
             total: total ,
-            id_Consumo: pago.id_consumo,
-            pagado: pago.pagado
+            id_Consumo: id,
+            pagado: pagado
         })
     }
 
