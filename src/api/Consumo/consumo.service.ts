@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { IConsumo } from 'src/models/consumo.model';
+import { Client } from 'src/entities/client.entity';
 
 @Injectable()
 export class ConsumoService {
@@ -12,12 +13,11 @@ export class ConsumoService {
      
     async create(consumo: IConsumo){
         const date = new Date;
-
         
-        return await this.consumoEntity.insert({
+        return await this.consumoEntity.save({
             fecha: date ,
-            id_Cliete: consumo.id_cliente,
-            consumo: consumo.consumo
+            consumo: consumo.consumo,
+            id_Cliente : consumo.id_cliente
         })
     }
 

@@ -14,9 +14,9 @@ export class PagoService {
         const total = 1 //Se calcula por a partir de la coneccion entre las tablas. 
 
         
-        return await this.pagoEntity.insert({
+        return await this.pagoEntity.save({
             total: total ,
-            id_consumo: pago.id_consumo,
+            id_Consumo: pago.id_consumo,
             pagado: pago.pagado
         })
     }

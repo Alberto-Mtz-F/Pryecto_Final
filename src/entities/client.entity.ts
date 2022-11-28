@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Consumo } from './conusmo.entity';
 
 @Entity()  
-export class Client{
+export class Client {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -19,4 +20,7 @@ export class Client{
 
     @Column()
     fecha_nacimiento: string;
+
+    @OneToMany(() => Consumo, (consumo) => consumo.id_Cliente )
+    consumo: Consumo[];
 }

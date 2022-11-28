@@ -11,7 +11,7 @@ export class ClienteService {
     ){}
      
     async create(client: IClient){
-        return await this.clientEntity.insert(client)
+        return await this.clientEntity.save(client)
     }
 
     getAll(){
