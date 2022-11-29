@@ -6,11 +6,10 @@ import { Consumo } from './../../entities/conusmo.entity';
 import { Module } from '@nestjs/common';
 import { ConsumoService } from './consumo.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ClienteService } from '../Cliente/cliente.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Consumo,Client,Pago])],
-  providers: [ConsumoService,PagoService,ClienteService],
+  providers: [ConsumoService,PagoService],
   controllers: [ConsumoController],
   exports:[] 
 })

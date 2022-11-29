@@ -1,4 +1,3 @@
-import { ClienteService } from './../Cliente/cliente.service';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pago } from 'src/entities/pago.entity';

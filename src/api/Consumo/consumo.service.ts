@@ -1,4 +1,3 @@
-import { ClienteService } from './../Cliente/cliente.service';
 import { PagoService } from './../Pago/pago.service';
 import { Consumo } from './../../entities/conusmo.entity';
 import { Injectable, Get } from '@nestjs/common';
@@ -9,8 +8,7 @@ import { IConsumo } from 'src/models/consumo.model';
 export class ConsumoService {
     constructor(
         @InjectRepository(Consumo) private consumoEntity : Repository<Consumo>,
-        private pagoService : PagoService,
-        private clienteService:ClienteService
+        private pagoService : PagoService
     ){}
      
     async create(consumo: IConsumo){
