@@ -9,13 +9,18 @@ export class ClienteService {
     constructor(
         @InjectRepository(Client) private clientEntity : Repository<Client>
     ){}
-     
+    private readonly Clientes: Client[] = []
+
     async create(client: IClient){
         return await this.clientEntity.save(client)
     }
 
     getAll(){
         return this.clientEntity.find()
+    }
+
+    getByID(id_cliente:number){
+        return this.clientEntity.find({where:{id: id_cliente}})
     }
     
 }

@@ -1,8 +1,8 @@
+import { ClienteService } from './../Cliente/cliente.service';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pago } from 'src/entities/pago.entity';
-import { IPago } from 'src/models/pago.model';
-import { Repository } from 'typeorm';
+import { Repository  } from 'typeorm';
 
 @Injectable()
 export class PagoService {
@@ -10,19 +10,25 @@ export class PagoService {
         @InjectRepository(Pago) private pagoEntity : Repository<Pago>
     ){}
      
-    async create(pago: IPago){
-        const total = 1 //Se calcula por a partir de la coneccion entre las tablas. 
-
+    async create(id: number, total : number, pagado: boolean){
         
         return await this.pagoEntity.save({
             total: total ,
-            id_Consumo: pago.id_consumo,
-            pagado: pago.pagado
+            id_Consumo: id,
+            pagado: pagado
         })
     }
 
 
     getAll(){
         return this.pagoEntity.find()
+    }
+
+    getPagado(){
+        return this.pagoEntity.find({where:{pagado: true}})
+    }
+
+    getNoPagado(){
+        return this.pagoEntity.find({where:{pagado: false}})
     }
 }

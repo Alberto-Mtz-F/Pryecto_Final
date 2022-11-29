@@ -6,7 +6,7 @@ import { PagoService } from './pago.service';
 export class PagoController {
     constructor(private pagoService: PagoService){}
 
-    @Post()
+    /*@Post()
     Create(@Body() params: IPago): boolean {
        
         try {
@@ -16,10 +16,20 @@ export class PagoController {
             console.log({error})
         }
          
-    }
+    }*/noPagado
 
     @Get('/all')
     getClient(){
         return this.pagoService.getAll()
+    }
+
+    @Get('/pagado')
+    getClientPagado(){
+        return this.pagoService.getPagado()
+    }
+
+    @Get('/noPagado')
+    getClientNoPagado(){
+        return this.pagoService.getNoPagado()
     }
 }
