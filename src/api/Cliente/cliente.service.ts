@@ -18,5 +18,9 @@ export class ClienteService {
     getAll(){
         return this.clientEntity.find()
     }
+
+    getByID(id_cliente:number){
+        return this.clientEntity.find({where:{id: id_cliente}})
+    }
     
 }

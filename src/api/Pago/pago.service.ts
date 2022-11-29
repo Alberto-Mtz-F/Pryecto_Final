@@ -1,8 +1,8 @@
+import { ClienteService } from './../Cliente/cliente.service';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pago } from 'src/entities/pago.entity';
-import { IPago } from 'src/models/pago.model';
-import { Repository } from 'typeorm';
+import { Repository  } from 'typeorm';
 
 @Injectable()
 export class PagoService {
@@ -22,5 +22,13 @@ export class PagoService {
 
     getAll(){
         return this.pagoEntity.find()
+    }
+
+    getPagado(){
+        return this.pagoEntity.find({where:{pagado: true}})
+    }
+
+    getNoPagado(){
+        return this.pagoEntity.find({where:{pagado: false}})
     }
 }
