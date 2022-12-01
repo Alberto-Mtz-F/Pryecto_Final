@@ -1,3 +1,4 @@
+import { ClienteService } from './../Cliente/cliente.service';
 import { PagoService } from './../Pago/pago.service';
 import { Consumo } from './../../entities/conusmo.entity';
 import { Injectable, Get } from '@nestjs/common';
@@ -8,14 +9,16 @@ import { IConsumo } from 'src/models/consumo.model';
 export class ConsumoService {
     constructor(
         @InjectRepository(Consumo) private consumoEntity : Repository<Consumo>,
-        private pagoService : PagoService
+        private pagoService : PagoService,
+        private clienteService : ClienteService
     ){}
      
     async create(consumo: IConsumo){
         const date = new Date;
         let total = 0;
         let pago = consumo.pagado;
-        let fecha = new Date("2001-10-16")
+        let fecha = new Date((await this.clienteService.getByID(consumo.id_cliente)).fecha_nacimiento) 
+        console.log(fecha)
         let edad = this.getEdad(fecha)
         console.log(edad)
 
