@@ -23,5 +23,9 @@ export class ClienteController {
         return this.clientService.getAll()
     }
 
+    @Get('/byID')
+    get(@Body() params: number){
+        this.clientService.getByID(params)
+    }
 
 }
