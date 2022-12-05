@@ -1,9 +1,9 @@
 import { ClienteService } from './../Cliente/cliente.service';
 import { PagoService } from './../Pago/pago.service';
 import { Consumo } from './../../entities/conusmo.entity';
-import { Injectable, Get } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LessThan, MoreThan, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { IConsumo } from 'src/models/consumo.model';
 @Injectable()
 export class ConsumoService {
@@ -13,14 +13,14 @@ export class ConsumoService {
         private clienteService : ClienteService
     ){}
      
-    async create(consumo: IConsumo){
+    async create(consumo: IConsumo):Promise<string | boolean>{
         const date = new Date;
         let total = 0;
         let pago = consumo.pagado;
-        let fecha = new Date((await this.clienteService.getByID(consumo.id_cliente)).fecha_nacimiento) 
-        console.log(fecha)
+        let fecha = new Date((await this.clienteService.getByID(consumo.id_cliente))) 
         let edad = this.getEdad(fecha)
-        console.log(edad)
+        if(edad > 500){return false}
+        
 
         if (consumo.consumo > 1 && consumo.consumo < 101) {
             total = consumo.consumo * 150;
@@ -40,7 +40,8 @@ export class ConsumoService {
         })
         
 
-        return await this.pagoService.create(response.id, total, pago)
+        await this.pagoService.create(response.id, total, pago)
+        return true
     }
 
 
@@ -49,11 +50,26 @@ export class ConsumoService {
     }
 
     getMaxConsumo(){
-        return this.consumoEntity.find({where:{consumo:MoreThan(300)}})
+        return this.consumoEntity.find({
+            take:1,
+            order: {
+                consumo: 'DESC'
+            }
+        })
     }
 
     getMinConsumo(){
-        return this.consumoEntity.find({where:{consumo:LessThan(30)}})
+        return this.consumoEntity.find({
+            take:1,
+            order: {
+                consumo: 'ASC'
+            }
+        })
+    }
+
+    getReporte(){
+        return this.clienteService.getReporte()
+            
     }
 
     getEdad(date: Date) {

@@ -27,5 +27,4 @@ export class ClienteController {
     get(@Body() params: number){
         this.clientService.getByID(params)
     }
-
 }
