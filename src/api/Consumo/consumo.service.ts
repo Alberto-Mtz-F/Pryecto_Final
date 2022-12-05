@@ -1,9 +1,9 @@
 import { ClienteService } from './../Cliente/cliente.service';
 import { PagoService } from './../Pago/pago.service';
 import { Consumo } from './../../entities/conusmo.entity';
-import { Injectable, Get } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LessThan, MoreThan, Repository } from 'typeorm';
+import { LessThan, Repository } from 'typeorm';
 import { IConsumo } from 'src/models/consumo.model';
 @Injectable()
 export class ConsumoService {
@@ -49,11 +49,21 @@ export class ConsumoService {
     }
 
     getMaxConsumo(){
-        return this.consumoEntity.find({where:{consumo:MoreThan(300)}})
+        return this.consumoEntity.find({
+            take:1,
+            order: {
+                consumo: 'DESC'
+            }
+        })
     }
 
     getMinConsumo(){
-        return this.consumoEntity.find({where:{consumo:LessThan(30)}})
+        return this.consumoEntity.find({
+            take:1,
+            order: {
+                consumo: 'ASC'
+            }
+        })
     }
 
     getEdad(date: Date) {
