@@ -32,4 +32,9 @@ export class ConsumoController {
     getMinConsumo(){
         return this.consumoService.getMinConsumo()
     }
+
+    @Get('/Reporte')
+    getReportePCLiente(){
+        return this.consumoService.getReporte()
+    }
 }

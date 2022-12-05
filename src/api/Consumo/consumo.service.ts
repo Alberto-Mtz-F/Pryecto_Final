@@ -3,7 +3,7 @@ import { PagoService } from './../Pago/pago.service';
 import { Consumo } from './../../entities/conusmo.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { LessThan, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { IConsumo } from 'src/models/consumo.model';
 @Injectable()
 export class ConsumoService {
@@ -64,6 +64,15 @@ export class ConsumoService {
             order: {
                 consumo: 'ASC'
             }
+        })
+    }
+
+    getReporte(){
+        return this.consumoEntity.find({
+            relations: {
+                id_Cliente: true,
+                pago: true
+            },
         })
     }
 
