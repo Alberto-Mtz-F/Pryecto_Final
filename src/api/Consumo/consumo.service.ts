@@ -13,14 +13,14 @@ export class ConsumoService {
         private clienteService : ClienteService
     ){}
      
-    async create(consumo: IConsumo){
+    async create(consumo: IConsumo):Promise<string | boolean>{
         const date = new Date;
         let total = 0;
         let pago = consumo.pagado;
-        let fecha = new Date((await this.clienteService.getByID(consumo.id_cliente)).fecha_nacimiento) 
-        console.log(fecha)
+        let fecha = new Date((await this.clienteService.getByID(consumo.id_cliente))) 
         let edad = this.getEdad(fecha)
-        console.log(edad)
+        if(edad > 500){return false}
+        
 
         if (consumo.consumo > 1 && consumo.consumo < 101) {
             total = consumo.consumo * 150;
@@ -40,7 +40,8 @@ export class ConsumoService {
         })
         
 
-        return await this.pagoService.create(response.id, total, pago)
+        await this.pagoService.create(response.id, total, pago)
+        return true
     }
 
 
