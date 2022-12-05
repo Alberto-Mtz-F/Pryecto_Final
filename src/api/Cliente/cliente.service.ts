@@ -18,6 +18,15 @@ export class ClienteService {
         return this.clientEntity.find()
     }
 
+    getReporte(){
+        return this.clientEntity.find({
+            relations: {
+                consumo: {pago: true},
+                
+            },
+        })
+    }
+
     async getByID(id_cliente:number):Promise<string>{
         const clienteExiste = await this.clientEntity.findOne({where:{id: id_cliente}})
         if(!clienteExiste){

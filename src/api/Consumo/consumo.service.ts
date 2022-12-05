@@ -68,12 +68,8 @@ export class ConsumoService {
     }
 
     getReporte(){
-        return this.consumoEntity.find({
-            relations: {
-                id_Cliente: true,
-                pago: true
-            },
-        })
+        return this.clienteService.getReporte()
+            
     }
 
     getEdad(date: Date) {
