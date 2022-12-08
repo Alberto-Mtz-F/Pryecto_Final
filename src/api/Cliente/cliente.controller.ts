@@ -23,7 +23,7 @@ export class ClienteController {
         return this.clientService.getAll()
     }
 
-    @Get('/byID/:id')
+    @Get(':id')
     get(@Param('id') param){
         const cliente = this.clientService.getByID(param)
         return cliente ?? "El cliente no existe"

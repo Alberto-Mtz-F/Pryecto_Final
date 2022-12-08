@@ -30,7 +30,10 @@ export class ClienteService {
     async getByID(id_cliente:number){
         const clienteExiste = await this.clientEntity.findOne({where:{id: id_cliente}})
         this.validarCliente(clienteExiste,id_cliente)
-        return (await this.clientEntity.findOne({where:{id: id_cliente}}))
+        return (await this.clientEntity.findOne({
+            relations:{consumo: {pago: true}},
+            where:{id: id_cliente}
+        }))
     }
 
     async getfechaNacimiento(id_cliente:number):Promise<string>{
