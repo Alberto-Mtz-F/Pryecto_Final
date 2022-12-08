@@ -1,4 +1,4 @@
-import { Injectable,NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Client } from 'src/entities/client.entity';
 import { IClient } from 'src/models/cliente.model';
@@ -26,15 +26,90 @@ export class ClienteService {
             },
         })
     }
+    
+    async getByID(id_cliente:number){
+        const clienteExiste = await this.clientEntity.findOne({where:{id: id_cliente}})
+        this.validarCliente(clienteExiste,id_cliente)
+        return (await this.clientEntity.findOne({where:{id: id_cliente}}))
+    }
 
-    async getByID(id_cliente:number):Promise<string>{
+    async getfechaNacimiento(id_cliente:number):Promise<string>{
         const clienteExiste = await this.clientEntity.findOne({where:{id: id_cliente}})
         if(!clienteExiste){
-            console.error(`No he encontrado el producto con id ${id_cliente}`)
+            console.error(`No se a encontrado el cliente con id ${id_cliente}`)
             return "1500-1-1"
-           // throw new NotFoundException(`No he encontrado el producto con id ${id_cliente}`);
         }
         return (await this.clientEntity.findOne({where:{id: id_cliente}})).fecha_nacimiento
     }
+
+    getPago(){
+        return this.clientEntity.find({
+            relations: {
+                consumo: {pago: true},
+            },
+            select: {
+                id: true,
+                nombre: true,
+                correo: true,
+                telefono: true,
+                domicilio: true,
+                fecha_nacimiento: true,
+                consumo: {
+                    id: true,
+                    pago: true
+                }
+            }
+        })
+    }
     
+
+    getPagado(){
+        return this.clientEntity.find({
+            relations: {
+                consumo: {pago: true},
+            },
+            where: {consumo:{pago:{pagado: true}}},
+            select: {
+                id: true,
+                nombre: true,
+                correo: true,
+                telefono: true,
+                domicilio: true,
+                fecha_nacimiento: true,
+                consumo: {
+                    id: true,
+                    pago: true
+                }
+            }
+        })
+    }
+
+    getNoPagado(){
+        return this.clientEntity.find({
+            relations: {
+                consumo: {pago: true},
+            },
+            where: {consumo:{pago:{pagado: false}}},
+            select: {
+                id: true,
+                nombre: true,
+                correo: true,
+                telefono: true,
+                domicilio: true,
+                fecha_nacimiento: true,
+                consumo: {
+                    id: true,
+                    pago: true
+                }
+            }
+            
+        })
+    }
+
+
+    validarCliente(clienteExiste: Client, id_cliente:number){
+        if(!clienteExiste){
+            console.error(`No se a encontrado el cliente con id ${id_cliente}`)
+        }
+    }
 }

@@ -17,14 +17,14 @@ export class ConsumoService {
         const date = new Date;
         let total = 0;
         let pago = consumo.pagado;
-        let fecha = new Date((await this.clienteService.getByID(consumo.id_cliente))) 
+        let fecha = new Date((await this.clienteService.getfechaNacimiento(consumo.id_cliente))) 
         let edad = this.getEdad(fecha)
         if(edad > 500){return false}
         
 
-        if (consumo.consumo > 1 && consumo.consumo < 101) {
+        if (consumo.consumo >= 1 && consumo.consumo < 101) {
             total = consumo.consumo * 150;
-        }else if (consumo.consumo > 101 && consumo.consumo < 301) {
+        }else if (consumo.consumo >= 101 && consumo.consumo < 301) {
             total = consumo.consumo * 170;
         } else {
             total = consumo.consumo * 190;
@@ -46,11 +46,20 @@ export class ConsumoService {
 
 
     getAll(){
-        return this.consumoEntity.find()
+        return this.consumoEntity.find({
+            relations: {
+                id_Cliente: true
+                
+            },
+        })
     }
 
     getMaxConsumo(){
         return this.consumoEntity.find({
+            relations: {
+                id_Cliente: true
+                
+            },
             take:1,
             order: {
                 consumo: 'DESC'
@@ -60,6 +69,10 @@ export class ConsumoService {
 
     getMinConsumo(){
         return this.consumoEntity.find({
+            relations: {
+                id_Cliente: true
+                
+            },
             take:1,
             order: {
                 consumo: 'ASC'

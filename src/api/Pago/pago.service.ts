@@ -1,3 +1,4 @@
+import { ClienteService } from './../Cliente/cliente.service';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pago } from 'src/entities/pago.entity';
@@ -6,7 +7,8 @@ import { Repository  } from 'typeorm';
 @Injectable()
 export class PagoService {
     constructor(
-        @InjectRepository(Pago) private pagoEntity : Repository<Pago>
+        @InjectRepository(Pago) private pagoEntity : Repository<Pago>,
+        private clinteServicio: ClienteService,
     ){}
      
     async create(id: number, total : number, pagado: boolean){
@@ -20,14 +22,15 @@ export class PagoService {
 
 
     getAll(){
-        return this.pagoEntity.find()
+        return this.clinteServicio.getPago()
+        
     }
 
     getPagado(){
-        return this.pagoEntity.find({where:{pagado: true}})
+        return this.clinteServicio.getPagado()
     }
 
     getNoPagado(){
-        return this.pagoEntity.find({where:{pagado: false}})
+        return this.clinteServicio.getNoPagado()
     }
 }
